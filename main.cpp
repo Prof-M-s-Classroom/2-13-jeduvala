@@ -44,6 +44,15 @@ public:
         length++;
     }
 
+    Node<T>* get(int index) {
+        if (index < 0 || index > length)
+            return nullptr;
+        Node<T>* temp = head;
+        for (int i= 0; i< index; i++) {
+            temp = temp -> next;
+        }
+    }
+
     void addhead(T *value) {
         Node<T> *newNode = new Node<T>(value);
         newNode->next = head;
@@ -66,16 +75,66 @@ public:
         length--;
     }
 
+
     void deleteNode(int index) {
        //TODO:Write the function to delete at the given index. Reuse the pre-written functions for edge cases. Account for missing index.
+
+    if (index < 0 || index > length)
+        cout << "index out of bounds" << endl;
+        return;
+        if (index == 0) {
+            Node<T> *temp = head;
+            head = head->next;
+            delete temp;
+            length--;
+        }
+        if (index == length) {
+            Node<T> *temp = head;
+            head = head->next;
+            delete temp;
+            length--;
+        }
+        else {
+            Node<T>* temp = get(index-1);
+            Node<T>* temp2 = temp->next;
+            temp->next = temp2->next;
+            delete temp2;
+        }
     }
 
    void insert(int index, T *value) {
         //TODO:Write a function to insert a new node at a give index. Reuse the pre-written functions for edge cases. Account for missing index
+    if (index < 0 || index > length) {
+        cout << "Index is invalid" << endl;
+        return;
     }
+        if (index == 0) {
+            addhead(value);
+        }
+        else {
+            Node<T>* newNode = new Node<T>(value);
+            Node<T> *temp = get(index-1);
+            newNode->next = temp->next;
+            temp->next = newNode;
+            length++;
+        }
 
-   void reverselist(){
+        }
+
+   void reverselist() {
         //TODO:Write a function to reverse the list using the logic from the slide.
+        Node<T>* prev = NULL;
+        Node<T>* curr = head;
+        Node<T>* next = NULL;
+
+        while(curr!=NULL)
+        {
+            next = curr->nextNode;
+            curr->nextNode = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
     }
 
     void print() {
